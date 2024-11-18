@@ -1,6 +1,3 @@
-import pandas as pd
-import os
-import random
 import data_loader
 import joblib
 from sklearn.neighbors import KNeighborsClassifier
