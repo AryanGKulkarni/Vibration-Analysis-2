@@ -41,9 +41,10 @@ def main():
     # Predict using the model
     prediction = model.predict(input_data_scaled)
     
-    if(prediction[0]==1):
-        print("Unhealthy")
-    else: print("Healthy")
+    if(prediction[0]==0):
+        print("Normal")
+    elif(prediction[0]==1): print("Unbalance with Forward Whirl")
+    else: print("Unbalance with Backward Whirl")
 
 if __name__ == "__main__":
     main()

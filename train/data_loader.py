@@ -16,21 +16,24 @@ column_names = [
     "Bearing 2 Displacement field Z component"
 ]
 
-# Define the file paths
+
 normal_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\Rotor-Healthy-Dataset.csv"
-unhealthy_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\Rotor-Unhealthy-Data.csv"
+unbalace_forward_whirl = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\forward_whirl.csv"
+unbalace_backward_whirl = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\backward_whirl.csv"
 
 def load_data():
-    # Load the data from CSV files using the defined column names
+
     normal_data = pd.read_csv(normal_csv)
-    unhealthy_data = pd.read_csv(unhealthy_csv)
+    unbalace_forward_whirl_data = pd.read_csv(unbalace_forward_whirl)
+    unbalace_backward_whirl_data = pd.read_csv(unbalace_forward_whirl)
     
-    # Add labels to the data
-    normal_data['label'] = 0  # Label 0 for normal condition
-    unhealthy_data['label'] = 1  # Label 1 for unbalance fault
+
+    normal_data['label'] = 0
+    unbalace_forward_whirl_data['label'] = 1
+    unbalace_backward_whirl_data['label'] = 2
     
     # Combine all data into a single DataFrame
-    combined_data = pd.concat([normal_data, unhealthy_data], ignore_index=True)
+    combined_data = pd.concat([normal_data, unbalace_forward_whirl_data, unbalace_backward_whirl_data], ignore_index=True)
     
     # Separate features (X) and labels (y)
     X = combined_data.drop('label', axis=1)

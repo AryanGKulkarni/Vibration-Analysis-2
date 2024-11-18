@@ -5,6 +5,9 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import StandardScaler
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 # Load data
 X, y = data_loader.load_data()
