@@ -4,7 +4,7 @@ import os
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -13,28 +13,28 @@ warnings.filterwarnings("ignore", category=UserWarning)
 X, y = data_loader.load_data()
 
 # Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
 
 # Standardize the data
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-# Save the scaler
-joblib.dump(scaler, './Models/scale/scaler.pkl')
-
-# Train XGBoost model
+num_class = len(label_encoder.classes_)
 print("Training XGBoost model...")
-xgb_model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)
-xgb_model.fit(X_train_scaled, y_train)
+import xgboost as xgb
+dtrain = xgb.DMatrix(X_train, label=y_train)
+dtest = xgb.DMatrix(X_test)
+param = {'max_depth': 6, 'eta': 0.1, 'objective': 'multi:softmax', 'num_class': num_class}
+num_round = 10
+bst = xgb.train(param, dtrain, num_round)
 print("Training complete.")
 
 # Save the trained model
-joblib.dump(xgb_model, './Models/test/xgb_model.pkl')
+joblib.dump(bst, './Models/test/xgb_model.pkl')
 print("Model saved.")
 
 # Evaluate the model
-y_pred = xgb_model.predict(X_test_scaled)
+y_pred = bst.predict(dtest).astype(int)  # Cast predictions to integer
 report = classification_report(y_test, y_pred)
 
 # Save the classification report
