@@ -1,0 +1,36 @@
+import data_loader
+import joblib
+import os
+from xgboost import XGBClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+import warnings
+import xgboost as xgb
+
+X_train, y_train = data_loader.load_data()
+
+X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.6, random_state=42)
+
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y_train)
+
+model_path = './Models/test/xgb_model.pkl'
+
+# scaler = joblib.load('./Models/scale/scaler.pkl') 
+
+model = joblib.load(model_path)
+dtest = xgb.DMatrix(X_test)
+print("Test Started")
+
+
+y_pred = model.predict(dtest).astype(int)  # Cast predictions to integer
+report = classification_report(y_test, y_pred)
+
+# Save the classification report
+os.makedirs('./Reports', exist_ok=True)
+with open('./Reports/xgb.txt', 'w') as f:
+    f.write("XGBoost Classification Report:\n")
+    f.write(report)
+
+print("Classification report saved.")

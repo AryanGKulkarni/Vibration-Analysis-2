@@ -17,18 +17,18 @@ column_names = [
 ]
 
 
-normal_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\Rotor-Healthy-Dataset.csv"
-unbalance_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\Rotor-Unhealthy-Data.csv"
-misalignment_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\Rotor-Misalignment-Dataset.csv"
-misalignment_with_unbalance_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL\Rotor-Misalignment-with-Unbalance.csv"
+normal_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL2\Rotor Healthy Dataset.csv"
+unbalance_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL2\Rotor Unhealthy Data.csv"
+misalignment_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL2\Rotor Misalignment Dataset.csv"
+misalignment_with_unbalance_csv = r"C:\Users\aryan\Desktop\BTP\Dataset\COMSOL2\Rotor Misalignment with Unbalance.csv"
 
 
 def load_data():
 
-    normal_data = pd.read_csv(normal_csv, usecols=column_names)
-    unbalance_data = pd.read_csv(unbalance_csv, usecols=column_names)
-    misalignment_data = pd.read_csv(misalignment_csv, usecols=column_names)
-    misalignment_with_unbalance_data = pd.read_csv(misalignment_with_unbalance_csv, usecols=column_names)
+    normal_data = pd.read_csv(normal_csv)
+    unbalance_data = pd.read_csv(unbalance_csv)
+    misalignment_data = pd.read_csv(misalignment_csv)
+    misalignment_with_unbalance_data = pd.read_csv(misalignment_with_unbalance_csv)
     
 
     normal_data['label'] = 0
